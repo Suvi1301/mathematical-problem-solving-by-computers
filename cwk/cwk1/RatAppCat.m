@@ -4,14 +4,16 @@ function [p, q] = RatAppCat(N)
 
 G = double(catalan);
 min_diff = 1;
-for j = 2:N
-    for i = floor(G*j):j-1
-        diff = abs(i/j - G);
-        if (diff < min_diff)
-            min_diff = diff;
-            p = i; q = j;
-        end
+
+for i = 2:N % q can't be 1 so start from 2
+    rvp = round(G*i); % rounded value of 'perfect' decimal p
+    if (rvp + i > N)
+        return; % if we find a p+q > N then we are done
+    end
+    diff = abs(rvp/i - G);
+    if (diff < min_diff)
+        min_diff = diff;
+        p = rvp; q = i;
     end
 end
 end
-
