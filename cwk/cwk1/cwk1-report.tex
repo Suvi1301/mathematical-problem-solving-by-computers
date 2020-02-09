@@ -44,7 +44,7 @@
 \begin{document}
 \maketitle
 
-% ----- Chapter 1 - cubic taxicab number ----- %
+% ******************************** Question 1 ******************************** %
 \chapter{Cubic Taxicab number}
 
 \section*{Problem}
@@ -59,17 +59,7 @@ Write a function \texttt{CubicTaxicabNum(N)} that takes an input $N$ and returns
 \section{Approach}
 Suppose we have a a function \texttt{isCubicTaxiCab(X)} which returns a \texttt{boolean} value determining whether $X \in \mathbb{Z^+}$ is a taxicab number. We will assume the input $N$ is always a positive integer. Using this function we can find the smallest cubic taxicab number greater than or equal to $N$ by checking each integer greater than or equal to $N$, until we find a cubic taxicab number. \\
 
-\begin{lstlisting}[language=Matlab]
-function ctn = CubicTaxicabNum(N)
-% CUBICTAXICABNUM return the smallest cubic taxicab number greater than
-% or equal to N
-
-ctn = N;
-while (~isCubicTaxiCab(ctn))
-    ctn = ctn + 1;
-end
-end
-\end{lstlisting}
+\lstinputlisting[language=Matlab]{CubicTaxicabNum.m}
 
 Now we can implement the function \texttt{isCubicTaxiCab(X)}. First, we make an observation about the solution. Assume $t \in \mathbb{Z^+}$ is a cubic taxicab number. Then:
 
@@ -82,35 +72,7 @@ e.g. $t=20 \implies$ \texttt{floor($\sqrt[3]{20}$)} $=$ \texttt{floor(2.714...))
 
 It follows from the observation that it is sufficient to check numbers in the range $[1,$ \texttt{floor($\sqrt[3]{t}$)}$]$ as possible candidates for $a$ and $b$ such that $t=a^3+b^3$. We claim the following is a solution for the function \texttt{isCubicTaxiCab(X)}: \\
 
-\begin{lstlisting}[language=Matlab]
-function x = isCubicTaxiCab(X)
-% ISCUBICTAXICAB returns a boolean value determining if X is a cubic
-% taxicab number or not.
-
-i = 1; j = floor(nthroot(X, 3));
-comb_count = 0;
-A = 1:j;
-x = false;
-combo = zeros(2); % Tracks the first two combinations if x is ctn
-while (i < j)
-    cube_sum = A(i)^3 + A(j)^3;
-    if (cube_sum > X)
-        j = j - 1;
-    elseif (cube_sum < X)
-        i = i + 1;
-    else
-        comb_count = comb_count + 1;
-        combo(comb_count,:) = [i j];
-        i = i + 1; j = j - 1;
-    end
-end
-if (comb_count == 2)
-    x = true;
-    % disp(combo); % uncomment to see the first 2 sum of cubes.
-    return;
-end
-end
-\end{lstlisting}
+\lstinputlisting[language=Matlab]{isCubicTaxiCab.m}
 
 \section{Analysis}
 \subsection{Correctedness:}
@@ -135,18 +97,13 @@ This implementation is much efficient than a "brute force" approach where we wou
 
 We can say our solution runs in \textit{"linear time complexity in $Y$"} which is significantly faster than the "brute force" approach which is \textit{"polynomial time complexity in $Y$"}, especially for very large input $X$.
 
-\section{Result}
+\section{Results}
 Below are the following results for two inputs $N=1$ and $N=36032$. \\
 
 \begin{lstlisting}[title={N=1}]
-input:
-CubicTaxicabNum(1)
-
-output:
 >> CubicTaxicabNum(1)
      1    12
      9    10
-
 ans = 1729
 \end{lstlisting}
 
@@ -158,14 +115,9 @@ This is a correct result because 1729 is the first cubic taxicab number, associa
 
 \textbf{NB:} The above result is run by uncommenting line 24 in the \texttt{isCubicTaxiCab(X)} function above. This also outputs the first two combinations whose cube sum is equal to cubic taxicab number found. \\
 \begin{lstlisting}[title={N=36032}]
-input:
-CubicTaxicabNum(36032)
-
-output:
 >> CubicTaxicabNum(36032)
      2    34
     15    33
-
 ans = 39312
 \end{lstlisting}
 Therefore, $\textbf{39312} = 2^3 +34^3 = 15^3 + 33^3 = ...$ (possibly more) is the smallest Cubic Taxicab number greater than or equal to 36032
