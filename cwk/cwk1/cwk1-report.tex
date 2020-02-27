@@ -41,7 +41,7 @@
 \lstset{style=mystyle}
 
 \begin{document}
-\maketitle
+%\maketitle
 
 % ******************************** Question 1 ******************************** %
 \chapter{Cubic Taxicab number}
@@ -172,4 +172,86 @@ q = 119
 >> p/q 
 ans = 0.915966386554622
 \end{lstlisting}
+
+% ******************************** Question 3 ******************************** %
+\chapter{Sum of reciprocal squares with prime factors}
+\section*{Problem}
+Consider the sum of reciprocal squares:
+\begin{equation}
+	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} = \frac{1}{1^2} - \frac{1}{2^2} - \frac{1}{3^2} + \frac{1}{4^2} + ... \label{eq:A}
+\end{equation}
+where $\Omega(k)$ is the number of prime factors (with multiplicity) of $k$ and $\Omega(1) = 0$. e.g. $\Omega(p)=1$ for any prime $p$; $\Omega(4)=2$ because $4=2\times2$. \\
+
+Find a reasonable approximation for the value of the above series by truncating a finite number of terms. Analyse the accuracy of the answer (i.e the number of correct decimal digits) based on computation with no more than 1,000,000 truncated terms. 
+
+\section{Approach}
+\paragraph{Observation:}
+First we observe the \textit{Basel Problem} which was solved by Leonhard Euler. The Basel Problem is the infinite sum of reciprocals, which has the exact value $\pi^2/6$.
+
+\begin{equation}
+	\sum_{k=1}^{\infty} \frac{1}{k^2} = \frac{\pi^2}{6} \label{eq:B}
+\end{equation}
+
+Now \eqref{eq:A} can be written as:
+
+\begin{equation*}
+	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} = \sum_{k=1}^{n} \frac{(-1)^{\Omega(k)}}{k^2} + \sum_{k=n+1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2}
+\end{equation*}
+
+Similarly \eqref{eq:B} can written as:
+
+\begin{equation*}
+	\sum_{k=1}^{\infty} \frac{1}{k^2} = \sum_{k=1}^{n} \frac{1}{k^2} + \sum_{k=n+1}^{\infty} \frac{1}{k^2}
+\end{equation*}
+
+Now it is very easy to see that:
+
+\begin{equation*}
+\begin{aligned}\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} &\le{}\\ \implies \sum_{k=1}^{n} \frac{(-1)^{\Omega(k)}}{k^2} + \sum_{k=n+1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} &\le{} \end{aligned}\!
+\begin{gathered}\sum_{k=1}^{\infty} \frac{1}{k^2}\\ \sum_{k=1}^{n} \frac{1}{k^2} + \sum_{k=n+1}^{\infty} \frac{1}{k^2} \end{gathered}\!
+\end{equation*}
+
+Therefore, we have that the error of approximating $n$ terms for \eqref{eq:A} is at most the error of approximating $n$ terms for \eqref{eq:B}. Since, we know the exact value for \eqref{eq:B}, we can find the exact value of the error of approximating $n$ terms for \eqref{eq:B} i.e:
+\begin{equation}
+	\sum_{k=n+1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} \leq \sum_{k=n+1}^{\infty} \frac{1}{k^2} = \frac{\pi^2}{6} - \sum_{k=1}^{n} \frac{1}{k^2}
+\end{equation}
+
+For a significantly large $n$, the error will be significantly small and we can use this to bound $\sum\limits_{k=1}^{n} \frac{(-1)^{\Omega(k)}}{k^2}$ from above and below as follows:
+\begin{equation}
+	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} - \sum_{k=n+1}^{\infty} \frac{1}{k^2} \leq \sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} \leq \sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} + \sum_{k=n+1}^{\infty} \frac{1}{k^2} \label{eq:bounds}
+\end{equation}
+
+If the value of the lower bound is equal to the upper bound up to some tolerance (i.e. some number of decimal digits), then we can be sure that \eqref{eq:A} is accurate up to the same tolerance. \\
+
+The function below calculates exactly the value of \eqref{eq:A} up to some tolerance by truncating no more than 1,000,000 terms. \\
+
+\lstinputlisting[language=Matlab]{SumPF.m}
+
+\section{Analysis}
+\subsection{Correctedness:}
+\begin{proof}[\unskip\nopunct]
+\texttt{sumPF = 0} and \texttt{basel\_sum = 0} at the start which is the first term in both series. The algorithm then calculates the value of both \eqref{eq:A} and \eqref{eq:B} up to $N=1000000$ terms. For each term that is added, the upper bound and the lower bound is calculated as defined in \eqref{eq:bounds}. \texttt{tolerance} keeps a track of the number of decimal digits that are accurate for \texttt{sumPF}. If the lower bound and upper bound are "close enough" (i.e. equal up to the tolerance), we can conclude that the approximated value of \eqref{eq:A} is accurate up to \texttt{tolerance} decimal digits. \\
+
+The algorithm increments the \texttt{tolerance} as more terms are added, given that the accurate value up to \texttt{tolerance} decimal digits is found. By the end of the for loop, \texttt{result} will store the value of \eqref{eq:A} for the first $X (\leq N)$ terms which is accurate to \texttt{tolerance} decimal digits.
+\end{proof}
+
+\subsection{Efficiency:}
+The for loop is executed $N-1$ times. On each iteration of the for loop, the while loop can be executed a finitely arbitrary amount of times depending on "how accurate the value for the first $k$ terms is. As $N$ increases the algorithm has to perform more operations. Therefore, the algorithm runs in "linear time complexity in N" at best.
+
+
+\section{Results}
+The function prints the value, accuracy and number of truncated terms. Below is the output for running the program with $N=1000000$.
+
+\begin{lstlisting}[title={N=1000000}]
+>> SumPF()
+Value = 0.65797
+Accuracy = 5 decimal digits
+Number of truncated terms = 728565
+\end{lstlisting}
+The result confirms that 
+\begin{equation*}
+	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} = 0.65797
+\end{equation*}
+is accurate to 5 decimal digits. We can also see that the number of terms that provide a value correct to 5 decimal digits is 728565. Therefore, running the algorithm with $728565 \leq N \leq 1000000$ will return the same result.
+
 \end{document}
