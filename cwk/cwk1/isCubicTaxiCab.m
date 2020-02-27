@@ -7,7 +7,7 @@ comb_count = 0;
 A = 1:j;
 x = false;
 combo = zeros(2); % Tracks the first two combinations if x is ctn
-while (i < j)
+while (i < j && comb_count < 2)
     cube_sum = A(i)^3 + A(j)^3;
     if (cube_sum > X)
         j = j - 1;
@@ -21,7 +21,7 @@ while (i < j)
 end
 if (comb_count == 2)
     x = true;
-    disp(combo); % uncomment to see the first 2 sum of cubes.
+%     disp(combo); % uncomment to see the first 2 sum of cubes.
     return;
 end
 end
