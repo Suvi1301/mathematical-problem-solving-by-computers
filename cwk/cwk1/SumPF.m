@@ -10,18 +10,19 @@ tolerance = 0;
 result = [];
 
 for k = 2:N
-    sum = sum + (((-1)^length(factor(k)))/k^2);
-    basel_sum = basel_sum + 1/k^2;
-    basel_err = ((pi^2)/6 - basel_sum);
+    sum = sum + (((-1)^length(factor(k)))/k^2); % add terms for our problem (3.1)
+    basel_sum = basel_sum + 1/k^2; % add terms for the Basel problem (3.2)
+    basel_err = ((pi^2)/6 - basel_sum); % error of the basel problem (3.3)
     upper_b = sum + basel_err;
     lower_b = sum - basel_err;
+    % Increase the number of decimal places till the lower and upper bound are equal.
     while (round(lower_b, tolerance) == round(upper_b, tolerance))
-        result = [round(sum, tolerance); tolerance; k];
+        result = [sum; round(sum, tolerance); tolerance; k;];
         tolerance = tolerance + 1;
     end
 end
-
-disp("Value = " + num2str(result(1)));
-disp("Accuracy = " + num2str(result(2)) + " decimal digits");
-disp("Number of truncated terms = " + num2str(result(3)));
+disp(result(1));
+disp("Value = " + num2str(result(2)));
+disp("Accuracy = " + num2str(result(3)) + " decimal digits");
+disp("Number of truncated terms = " + num2str(result(4)));
 end

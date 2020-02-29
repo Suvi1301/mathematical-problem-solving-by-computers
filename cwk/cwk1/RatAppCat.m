@@ -6,7 +6,7 @@ G = double(catalan);
 min_dif = 1;
 
 for qi = 1:N
-    rvp = round(G*qi); % rounded value of 'accurate' decimal p
+    rvp = round(G*qi); % rounded value of 'accurate' decimal p*
     if (rvp + qi > N)
         return; % if we find a p+q > N then we are done
     end

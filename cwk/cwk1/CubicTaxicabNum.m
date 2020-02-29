@@ -3,7 +3,7 @@ function ctn = CubicTaxicabNum(N)
 % or equal to N
 
 ctn = N;
-while (~isCubicTaxiCab(ctn))
+while (~isCubicTaxiCab(ctn)) % Until we find a cubic taxicab number.
     ctn = ctn + 1;
 end
 end

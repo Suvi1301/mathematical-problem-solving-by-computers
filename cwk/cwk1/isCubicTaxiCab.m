@@ -22,6 +22,5 @@ end
 if (comb_count == 2)
     x = true;
 %     disp(combo); % uncomment to see the first 2 sum of cubes.
-    return;
 end
 end

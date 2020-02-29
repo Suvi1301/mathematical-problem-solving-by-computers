@@ -1,7 +1,5 @@
 \documentclass[11pt]{report}
 \title{MATH-36032 PSBC Project 1: Three short questions}
-\author{Suvineet Singh Kalsi \\ ID: 9844719}
-\date{}
 
 \setlength\parindent{0pt}
 
@@ -41,11 +39,11 @@
 \lstset{style=mystyle}
 
 \begin{document}
-%\maketitle
 
 % ******************************** Question 1 ******************************** %
 \chapter{Cubic Taxicab number}
 
+% ------ Problem ------ %
 \section*{Problem}
 \paragraph{Cubic Taxicab number:}
 is a positive integer which can be written in two or more distinct ways of the form:
@@ -55,8 +53,9 @@ is a positive integer which can be written in two or more distinct ways of the f
 
 Write a function \texttt{CubicTaxicabNum(N)} that takes an input $N$ and returns the smallest cubic taxicab number which is greater than or equal to $N$.
 
+% ------ Approach ------ %
 \section{Approach}
-Suppose we have a a function \texttt{isCubicTaxiCab(X)} which returns a \texttt{boolean} value determining whether $X \in \mathbb{Z^+}$ is a taxicab number. We will assume the input $N$ is always a positive integer. Using this function we can find the smallest cubic taxicab number greater than or equal to $N$ by checking each integer greater than or equal to $N$, until we find a cubic taxicab number. \\
+Suppose we have a function \texttt{isCubicTaxiCab(X)} which returns a \texttt{boolean} value determining whether $X \in \mathbb{Z^+}$ is a taxicab number. We will assume the input $N$ is always a positive integer. Using this function we can find the smallest cubic taxicab number greater than or equal to $N$ by checking each integer greater than or equal to $N$, until we find a cubic taxicab number. \\
 
 \lstinputlisting[language=Matlab]{CubicTaxicabNum.m}
 
@@ -73,14 +72,15 @@ It follows from the observation that it is sufficient to check numbers in the ra
 
 \lstinputlisting[language=Matlab]{isCubicTaxiCab.m}
 
+% ------ Analysis ------ %
 \section{Analysis}
 \subsection{Correctedness:}
 \begin{proof}[\unskip\nopunct]
 Let $Y=$ \texttt{floor($\sqrt[3]{X}$)}. The above function attempts to find two distinct combinations from the range $A=[1,Y]\subset \mathbb{Z^+}$ for which the sum of cubes is equal to $X$. \\ 
 
-The algorithm first checks if $1^3+Y^3=X$ i.e ($A(1)^3+A(Y)^3 = X$). If this is the case then we have found one combination whose sum of cubes is equal to $X$ (line 15-18). However, if the sum of cubes is greater than $X$ then we must add a smaller value to $1^3$ to get closer to $X$. Hence, we then decrement $j$ by 1 (line 13). With a similar argument, if the sum of cubes is less than $X$ then we must increment $i$ by one (line 14). \\
+The algorithm first checks if $1^3+Y^3=X$ i.e $A(1)^3+A(Y)^3 = X$. If this is the case, then we have found one combination whose sum of cubes is equal to $X$ (line 16-19). However, if the sum of cubes is greater than $X$ then we must add a smaller value to $1^3$ to get closer to $X$. Hence, we then decrement $j$ by 1 (line 13). With a similar argument, if the sum of cubes is less than $X$ then we must increment $i$ by one (line 15). \\
 
-This is repeated until either $i=j$ or we have found 2 combinations (condition in the \texttt{while} loop). The latter implies that $X$ is a cubic taxicab number, whereas if $i=j$ before $\texttt{comb\_count}=2$ then we can conclude that $X$ is not a cubic taxicab number (line 22-26). \\
+This is repeated until either $i=j$ or we have found 2 combinations (condition in the \texttt{while} loop). The latter implies that $X$ is a cubic taxicab number, whereas if $i=j$ before $\texttt{comb\_count}=2$ then we can conclude that $X$ is not a cubic taxicab number (line 22-24) because there are no other valid possible combinations to check in $A$ \\
 
 The algorithm checks all possible combinations in the list $A = [1,Y] \subset \mathbb{Z^+}$. Therefore, we will always find two combinations if $X$ is a cubic taxicab number and will only return \texttt{false} when it isn't. Hence, the algorithm is correct.
 \end{proof}
@@ -89,13 +89,13 @@ The algorithm checks all possible combinations in the list $A = [1,Y] \subset \m
 \subsubsection{\texttt{CubicTaxicabNum(N)}:}
 This function clearly iterates $n$ times where $n$ is the difference between $N$ and the smallest cubic taxicab number greater than or equal to $N$.
 
-\subsubsection{\texttt{isCubicTaxiCab(N)}:}
+\subsubsection{\texttt{isCubicTaxiCab(X)}:}
 This function loops at most $Y=$ \texttt{floor($\sqrt[3]{X}$)} times, in the case when $X$ is \textbf{not} a cubic taxicab number. The algorithm checks all possible combinations in the list $A=[1,Y]\subset\mathbb{Z^+}$ and terminates without finding at least two correct combinations. \\
 
-This implementation is much efficient than a ``brute force'' approach where we would check every possible combination in $A$ which can happen at most $Y^2$. \\
+This implementation is much efficient than a ``brute force'' approach where we would check every possible combination in $A$ which can happen at most $Y^2$ times. \\
 
-We can say our solution runs in \textit{``linear time complexity in $Y$''} which is significantly faster than the "brute force" approach which is \textit{``polynomial time complexity in $Y$''}, especially for very large input $X$.
-
+We can say this solution runs in \textit{``linear time complexity in $Y$''} which is significantly faster than the "brute force" approach which is \textit{``polynomial time complexity in $Y$''}, especially for very large input $X$.
+% ------ Results ------ %
 \section{Results}
 Below are the following results for two inputs $N=1$ and $N=36032$. \\
 
@@ -112,7 +112,7 @@ This is a correct result because 1729 is the first cubic taxicab number, associa
 	1729 = 1^3 + 12^3 = 9^3 + 10^3
 \end{equation*}
 
-\textbf{NB:} The above result is run by uncommenting line 22 in the \texttt{isCubicTaxiCab(X)} function above. This also outputs the first two combinations whose cube sum is equal to the cubic taxicab number found. \\
+\textbf{NB:} The above result is run by uncommenting line 24 in the \texttt{isCubicTaxiCab(X)} function above. This also outputs the first two combinations whose cube sum is equal to the cubic taxicab number found. \\
 \begin{lstlisting}[title={N=36032}]
 >> CubicTaxicabNum(36032)
      2    34
@@ -124,6 +124,7 @@ Therefore, $\textbf{39312} = 2^3 +34^3 = 15^3 + 33^3 = ...$ (possibly more) is t
 
 % ******************************** Question 2 ******************************** %
 \chapter{Catalan's Constant}
+% ------ Problem ------ %
 \section*{Problem}
 Here we have the Catalan's constant:
 
@@ -135,32 +136,34 @@ $G$ can expressed in terms of various sums and series or special integrals, howe
 
 Write a function \texttt{RatAppCat(N)} which takes an input $N\in\mathbb{Z^+}$ and returns a pair $(p, q)$ such that $p,q\in\mathbb{Z^+}$ and $p/q$ is the best rational approximation of $G$. i.e. $|p/q-G|$ is the smallest. We add a constraint that $p+q\leqslant N$.
 
-
+% ------ Approach ------ %
 \section{Approach}
 
 \paragraph{Observation:}
-For a given $q\in\mathbb{Z^+}$, we can find the \textit{accurate} $p^*\in\mathbb{R^+}$ such that $p^*=qG$. Then for any such $p^*$, $p=\texttt{round(}p^*\texttt{)} \in \mathbb{Z^+}$ will give the best approximation of $p/q =G$ for the given $q$. \\
+For a given $q\in\mathbb{Z^+}$, we can find the \textit{accurate} $p^*\in\mathbb{R^+}$ such that $p^*=qG$. Then for any such $p^*$, $p=\texttt{round(}p^*\texttt{)} \in \mathbb{Z^+}$ will give the best approximation of $p/q \approx G$ for the given $q$. \\
 
-Moreover, it is trivial to see that  $p_0 + q_0 > N \implies p_1 + q_1 > N$, where $p_0, p_1, q_0, q_1 \in \mathbb{Z^+}$ s.t $p_0/q_0$ and $p_1/q_1$ are approximations of $G$ with $p_0 \leq p_1$ and $q_0 \leq q_1$. \\
+Moreover, it is trivial to see that  if $p_0 + q_0 > N$ then, $p_1 + q_1 > N$, where $p_0, p_1, q_0, q_1 \in \mathbb{Z^+}$ such that $p_0/q_0$ and $p_1/q_1$ are approximations of $G$ with $p_0 \leq p_1$ and $q_0 \leq q_1$. \\
 
 Using the first observation it is sufficient to iterate over all the values of $q\in[1,N]$ such that $p+q\leq N$ where $p = \texttt{round(}qG\texttt{)} \in \mathbb{Z^+}$. On each iteration, we can calculate $d = |p/q - G|$, whilst keeping track of the smallest $d$. Then using the second observation, we can stop iterating over $q$ any further when we get the first $p+q>N$. \\
 
 The following function \texttt{RatAppCat(N)} implements the above approach:
 \lstinputlisting[language=Matlab]{RatAppCat.m}
 
+% ------ Analysis ------ %
 \section{Analysis}
 \subsection{Correctedness:}
 \begin{proof}[\unskip\nopunct]
 The algorithm loops from \texttt{qi = 1 to N}. For each \texttt{qi} the \textit{rounded perfect value} \texttt{rvp = round(G*qi)} is calculated. Which we know will be the best value of $p$ for the given \texttt{qi} from our observation. The algorithm then checks if the current \texttt{rvp + q > N}. In the case where this is true, the algorithm halts because we can no longer find a better solution whilst obeying our restriction that $p+q\leq N$. \\
 
-However, if this condition is false, then $d=|p/q - G|$ is calculated (for \texttt{qi}) and if this is smaller than any previous $d$ we pick this combination to be the best $p$ and $q$. \\
+However, if this condition is false, then $d=|p/q - G|$ is calculated (for \texttt{qi}) and if this is smaller than any previous $d$, then we pick this combination to be the best $p$ and $q$. \\
 \end{proof}
 
 \subsection{Efficiency:}
-The algorithm approximately loops at most $N/2$ times because for a given $q$, $p = \texttt{round(}qG\texttt{)}$ will be ``very close'' to $q$ as $G\approx 0.91596559417721$. Therefore, if \texttt{qi $\approx N/2$} then $\texttt{qi + rvp} \approx \texttt{qi + qi} \approx 2\times N/2 = N$ then $\texttt{qi+1 + rvp} \gtrapprox N$. \\
+The algorithm approximately loops at most $N/2$ times because for a given $q$; $p = \texttt{round(}qG\texttt{)}$ will be ``very close'' to $q$ as $G\approx 0.91596559417721$. Therefore, if \texttt{qi $\approx N/2$} then $\texttt{qi + rvp} \approx \texttt{qi + qi} \approx 2\times N/2 = N$ then $\texttt{qi + 1 + rvp} \gtrapprox N$. \\
 
 Therefore, the algorithm runs in \textit{``linear time complexity in $N$''}, however, it does approximately $N/2$ operations rather than $N$. 
 
+% ------ Results ------ %
 \section{Results} 
 Below is the result for $N=2018$. \\
 
@@ -175,6 +178,7 @@ ans = 0.915966386554622
 
 % ******************************** Question 3 ******************************** %
 \chapter{Sum of reciprocal squares with prime factors}
+% ------ Problem ------ %
 \section*{Problem}
 Consider the sum of reciprocal squares:
 \begin{equation}
@@ -184,6 +188,7 @@ where $\Omega(k)$ is the number of prime factors (with multiplicity) of $k$ and 
 
 Find a reasonable approximation for the value of the above series by truncating a finite number of terms. Analyse the accuracy of the answer (i.e the number of correct decimal digits) based on computation with no more than 1,000,000 truncated terms. 
 
+% ------ Approach ------ %
 \section{Approach}
 \paragraph{Observation:}
 First we observe the \textit{Basel Problem} which was solved by Leonhard Euler. The Basel Problem is the infinite sum of reciprocals, which has the exact value $\pi^2/6$.
@@ -227,31 +232,34 @@ The function below calculates exactly the value of \eqref{eq:A} up to some toler
 
 \lstinputlisting[language=Matlab]{SumPF.m}
 
+% ------ Analysis ------ %
 \section{Analysis}
 \subsection{Correctedness:}
 \begin{proof}[\unskip\nopunct]
-\texttt{sumPF = 0} and \texttt{basel\_sum = 0} at the start which is the first term in both series. The algorithm then calculates the value of both \eqref{eq:A} and \eqref{eq:B} up to $N=1000000$ terms. For each term that is added, the upper bound and the lower bound is calculated as defined in \eqref{eq:bounds}. \texttt{tolerance} keeps a track of the number of decimal digits that are accurate for \texttt{sumPF}. If the lower bound and upper bound are "close enough" (i.e. equal up to the tolerance), we can conclude that the approximated value of \eqref{eq:A} is accurate up to \texttt{tolerance} decimal digits. \\
+\texttt{sumPF = 1} and \texttt{basel\_sum = 1} at the start which is the first term in both series. The algorithm then calculates the value of both \eqref{eq:A} and \eqref{eq:B} up to $N=1000000$ terms. For each term that is added, the upper bound and the lower bound is calculated as defined in \eqref{eq:bounds}. \texttt{tolerance} keeps a track of the number of decimal digits that are accurate for \texttt{sumPF}. If the lower bound and upper bound are "close enough" (i.e. equal up to the tolerance), we can conclude that the approximated value of \eqref{eq:A} is accurate up to \texttt{tolerance} decimal digits. \\
 
 The algorithm increments the \texttt{tolerance} as more terms are added, given that the accurate value up to \texttt{tolerance} decimal digits is found. By the end of the for loop, \texttt{result} will store the value of \eqref{eq:A} for the first $X (\leq N)$ terms which is accurate to \texttt{tolerance} decimal digits.
 \end{proof}
 
 \subsection{Efficiency:}
-The for loop is executed $N-1$ times. On each iteration of the for loop, the while loop can be executed a finitely arbitrary amount of times depending on "how accurate the value for the first $k$ terms is. As $N$ increases the algorithm has to perform more operations. Therefore, the algorithm runs in "linear time complexity in N" at best.
+The for loop is executed $N-1$ times. On each iteration of the for loop, the while loop can be executed a finitely arbitrary amount of times depending on ``how accurate the value for the first $k$ terms is''. As $N$ increases the algorithm has to perform more operations. Therefore, the algorithm runs in "linear time complexity in N" at best.
 
-
+% ------ Results ------ %
 \section{Results}
 The function prints the value, accuracy and number of truncated terms. Below is the output for running the program with $N=1000000$.
 
 \begin{lstlisting}[title={N=1000000}]
 >> SumPF()
+   0.657973627437163
+
 Value = 0.65797
 Accuracy = 5 decimal digits
 Number of truncated terms = 728565
 \end{lstlisting}
 The result confirms that 
 \begin{equation*}
-	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} = 0.65797
+	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} \approx \textbf{0.65797}3627437163
 \end{equation*}
-is accurate to 5 decimal digits. We can also see that the number of terms that provide a value correct to 5 decimal digits is 728565. Therefore, running the algorithm with $728565 \leq N \leq 1000000$ will return the same result.
+is \textbf{accurate to 5 decimal digits}. We can also see that the number of terms that provide a value correct to 5 decimal digits is 728565. Therefore, running the algorithm with $728565 \leq N \leq 1000000$ will return the same result. To improve the accuracy of the result, we can increase $N$, however, it will require a lot of computation time.
 
 \end{document}
