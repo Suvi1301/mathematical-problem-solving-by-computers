@@ -48,7 +48,7 @@
 % ------ Problem ------ %
 \section*{Problem}
 \paragraph{Cubic Taxicab number:}
-is a positive integer which can be written in two or more distinct ways of the form:
+Is a positive integer which can be written in two or more distinct ways of the form:
 \begin{equation*}
 	t = a^3 + b^3
 \end{equation*} where $a$, $b$ $\in$ $\mathbb{Z^+}$ \\
@@ -61,7 +61,7 @@ Suppose we have a function \texttt{isCubicTaxiCab(X)} which returns a \texttt{bo
 
 \lstinputlisting[language=Matlab]{CubicTaxicabNum.m}
 
-Now we can implement the function \texttt{isCubicTaxiCab(X)}. First, we make an observation about the solution. Assume $t \in \mathbb{Z^+}$ is a cubic taxicab number. Then:
+Now we can implement the function \texttt{isCubicTaxiCab(X)}. First, we make an observation about the solution. Assume $t \in \mathbb{Z^+}$ is a cubic taxicab number. Then we have the following observation:
 
 \paragraph{Observation:}
 If $t=a^3+b^3$ for $a, b \in \mathbb{Z^+}$ then assuming without loss of generality that $a \leqslant b$ we have:
@@ -94,7 +94,7 @@ This function clearly iterates $n$ times where $n$ is the difference between $N$
 \subsubsection{\texttt{isCubicTaxiCab(X)}:}
 This function loops at most $Y=$ \texttt{floor($\sqrt[3]{X}$)} times, in the case when $X$ is \textbf{not} a cubic taxicab number. The algorithm checks all possible combinations in the list $A=[1,Y]\subset\mathbb{Z^+}$ and terminates without finding at least two correct combinations. \\
 
-This implementation is much efficient than a ``brute force'' approach where we would check every possible combination in $A$ which can happen at most $Y^2$ times. \\
+This implementation is much more efficient than a ``brute force'' approach where we would check every possible combination in $A$ which can happen at most $Y^2$ times. \\
 
 We can say this solution runs in \textit{``linear time complexity in $Y$''} which is significantly faster than the "brute force" approach which is \textit{``polynomial time complexity in $Y$''}, especially for very large input $X$.
 % ------ Results ------ %
@@ -134,7 +134,7 @@ Here we have the Catalan's constant:
 	G = \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k +1)^2} = \frac{1}{1^2} - \frac{1}{3^2} + \frac{1}{5^2} + ... + \approx 0.915965594177219
 \end{equation*}
 
-$G$ can expressed in terms of various sums and series or special integrals, however, hasn't yet been proved to be irrational or not. \\
+$G$ can be expressed in terms of various sums and series or special integrals, however it hasn't yet been proven to be irrational or not. \\
 
 Write a function \texttt{RatAppCat(N)} which takes an input $N\in\mathbb{Z^+}$ and returns a pair $(p, q)$ such that $p,q\in\mathbb{Z^+}$ and $p/q$ is the best rational approximation of $G$. i.e. $|p/q-G|$ is the smallest. We add a constraint that $p+q\leqslant N$.
 
@@ -155,7 +155,7 @@ The following function \texttt{RatAppCat(N)} implements the above approach:
 \section{Analysis}
 \subsection{Correctedness:}
 \begin{proof}[\unskip\nopunct]
-The algorithm loops from \texttt{qi = 1 to N}. For each \texttt{qi} the \textit{rounded perfect value} \texttt{rvp = round(G*qi)} is calculated. Which we know will be the best value of $p$ for the given \texttt{qi} from our observation. The algorithm then checks if the current \texttt{rvp + q > N}. In the case where this is true, the algorithm halts because we can no longer find a better solution whilst obeying our restriction that $p+q\leq N$. \\
+The algorithm loops from \texttt{qi = 1 to N}. For each \texttt{qi} the \textit{rounded perfect value} \texttt{rvp = round(G*qi)} is calculated, which we know will be the best value of $p$ for the given \texttt{qi} from our observation. The algorithm then checks if the current \texttt{rvp + q > N}. In the case where this is true, the algorithm halts because we can no longer find a better solution whilst obeying our restriction that $p+q\leq N$. \\
 
 However, if this condition is false, then $d=|p/q - G|$ is calculated (for \texttt{qi}) and if this is smaller than any previous $d$, then we pick this combination to be the best $p$ and $q$. \\
 \end{proof}
@@ -238,9 +238,9 @@ The function below calculates exactly the value of \eqref{eq:A} up to some toler
 \section{Analysis}
 \subsection{Correctedness:}
 \begin{proof}[\unskip\nopunct]
-\texttt{sumPF = 1} and \texttt{basel\_sum = 1} at the start which is the first term in both series. The algorithm then calculates the value of both \eqref{eq:A} and \eqref{eq:B} up to $N=1000000$ terms. For each term that is added, the upper bound and the lower bound is calculated as defined in \eqref{eq:bounds}. \texttt{tolerance} keeps a track of the number of decimal digits that are accurate for \texttt{sumPF}. If the lower bound and upper bound are "close enough" (i.e. equal up to the tolerance), we can conclude that the approximated value of \eqref{eq:A} is accurate up to \texttt{tolerance} decimal digits. \\
+\texttt{sumPF = 1} and \texttt{basel\_sum = 1} at the start which is the first term in both series. The algorithm then calculates the value of both \eqref{eq:A} and \eqref{eq:B} up to $N=1000000$ terms. For each term that is added, the upper and lower bounds are calculated as defined in \eqref{eq:bounds}. \texttt{tolerance} keeps a track of the number of decimal digits that are accurate for \texttt{sumPF}. If the lower bound and upper bound are ``close enough'' (i.e. equal up to the tolerance), we can conclude that the approximated value of \eqref{eq:A} is accurate up to that many decimal digits. \\
 
-The algorithm increments the \texttt{tolerance} as more terms are added, given that the accurate value up to \texttt{tolerance} decimal digits is found. By the end of the for loop, \texttt{result} will store the value of \eqref{eq:A} for the first $X (\leq N)$ terms which is accurate to \texttt{tolerance} decimal digits.
+Once the accurate value of $\texttt{tolerance}_{i}$ is found, the algorithm increments the value of \texttt{tolerance} to $\texttt{tolerance}_{i+1}$ (i.e. increase the decimal digits). By the end of the for loop, \texttt{result} will store the value of \eqref{eq:A} for the first $X (\leq N)$ terms which is accurate to the \texttt{tolerance} value. \\
 \end{proof}
 
 \subsection{Efficiency:}
@@ -262,6 +262,6 @@ The result confirms that
 \begin{equation*}
 	\sum_{k=1}^{\infty} \frac{(-1)^{\Omega(k)}}{k^2} \approx \textbf{0.65797}3627437163
 \end{equation*}
-is \textbf{accurate to 5 decimal digits}. We can also see that the number of terms that provide a value correct to 5 decimal digits is 728565. Therefore, running the algorithm with $728565 \leq N \leq 1000000$ will return the same result. To improve the accuracy of the result, we can increase $N$, however, it will require a lot of computation time.
+is \textbf{accurate to 5 decimal digits}. We can also see that the number of terms that provide a value correct to 5 decimal digits is 728565. Therefore, running the algorithm with $728565 \leq N \leq 1000000$ will return the same result. To improve the accuracy of the result, we can increase $N$. However, this will increase computation.
 
 \end{document}
