@@ -1,4 +1,4 @@
-function [height, duration] = GetHeightAndTravelTimeAt12K(angle)
+function [height, duration] = GetHeightAndDurationAt12K(angle)
 % GetHeightAt12K Find the height of particle at horizontal distance = 12000 
 % for given firing angle and the time it takes to reach this height
 
