@@ -1,22 +1,8 @@
-function minus_dist = Distance(angle, plt)
+function minus_dist = Distance(theta)
 % Distance solves coupled ODE system for given launch angle and returns the 
-% negative distance. Call with plt=true to plot the trajectory.
-
-% set plt to false by default
-if nargin < 2
-    plt = false;
-end
+% negative distance.
 
 % Solve the ODE numerically
-[~, x] = Projectile(angle, @Events1);
+[~, x] = Projectile(theta, @Events1);
 minus_dist = -x(end,1);
-
-% Plot the projectile trajectory for maximum horizontal distance.
-if plt
-    plot(x(:,1), x(:,3), 'Linewidth', 2);
-    % Change label formatting
-    set(gca,'fontsize',14);
-    xlabel('Horizontal Distance (m)','fontsize',14,'fontnam','times roman');
-    ylabel('Vertical Distance (m)','fontsize',14,'fontnam','times roman');
-end
 end
