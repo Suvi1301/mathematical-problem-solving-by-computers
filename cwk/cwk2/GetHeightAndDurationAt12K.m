@@ -7,5 +7,4 @@ function [height, duration] = GetHeightAndTravelTimeAt12K(angle)
 
 duration = t(end);
 height = x(end, 3);
-
 end

@@ -3,7 +3,7 @@ m = 6;
 K = 2e-5;
 g = 9.8;
 v_0 = 450;
-span = [0, (2*v_0)/g];
+span = [0, (2*v_0*sin(angle))/g];
 
 opts = odeset('Refine', 32, 'Events', events);
 

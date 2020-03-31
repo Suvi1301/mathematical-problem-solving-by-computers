@@ -14,8 +14,8 @@ minus_dist = -x(end,1);
 % Plot the projectile trajectory for maximum horizontal distance.
 if plt
     plot(x(:,1), x(:,3), 'Linewidth', 2);
+    % Change label formatting
     set(gca,'fontsize',14);
-    ylim([0,inf]);
     xlabel('Horizontal Distance (m)','fontsize',14,'fontnam','times roman');
     ylabel('Vertical Distance (m)','fontsize',14,'fontnam','times roman');
 end
