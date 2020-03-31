@@ -1,4 +1,5 @@
 function [t, x] = Projectile(angle, events)
+% Projectile solves the ODE system for a given firing angle.
 m = 6;
 K = 2e-5;
 g = 9.8;
