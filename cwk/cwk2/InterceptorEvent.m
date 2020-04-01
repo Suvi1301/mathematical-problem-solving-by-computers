@@ -1,4 +1,4 @@
-function [value, isterminal, direction] = Events2(~, x)
+function [value, isterminal, direction] = InterceptorEvent(~, x)
 
 % Terminate the ode when horizontal distance = 12000m
 value(1) = x(1) - 12000;

@@ -1,4 +1,4 @@
-function [value, isterminal, direction] = Events1(~, x)
+function [value, isterminal, direction] = GroundEvent(~, x)
 
 % The event when vertical displacement = 0. Terminates the ODE.
 value(1) = x(3);

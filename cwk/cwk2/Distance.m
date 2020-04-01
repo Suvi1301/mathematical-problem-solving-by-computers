@@ -1,8 +1,8 @@
-function minus_dist = Distance(theta)
+function dist = Distance(theta)
 % Distance solves coupled ODE system for given launch angle and returns the 
 % negative distance.
 
 % Solve the ODE numerically
-[~, x] = Projectile(theta, @Events1);
-minus_dist = -x(end,1);
+[~, x] = Projectile(theta, @GroundEvent);
+dist = x(end,1);
 end
