@@ -75,14 +75,14 @@ We aim to solve two problems related to projectile motion. The projected object 
 
 We assume only the following two forces act on the cannonball:
 \begin{itemize}
-	\item the gravity: $\vec{g} = \begin{pmatrix} 0 \\ -9.8 \end{pmatrix}$ with gravitational constant assumed to be $9.8\text{ms}^{-2}$.
-	\item the friction force: $\vec{F}=K|\vec{v}|^2$ acting in the opposite direction to the velocity $\vec{v}$ and proportional to the speed squared $|\vec{v}|^2$, with constant $K=0.00002\text{kgm}^{-1}$. Note that this can be written as $$\vec{F}=-K|\vec{v}|\vec{v}.$$
+	\item The gravity: $\vec{g} = \begin{pmatrix} 0 \\ -9.8 \end{pmatrix}$ with gravitational constant assumed to be $9.8\text{ms}^{-2}$.
+	\item The friction force: $\vec{F}=K|\vec{v}|^2$ acting in the opposite direction to the velocity $\vec{v}$ and proportional to the speed squared $|\vec{v}|^2$, with constant $K=0.00002\text{kgm}^{-1}$. Note that this can be written as $$\vec{F}=-K|\vec{v}|\vec{v}.$$
 \end{itemize}
 
 We consider Newton's Second Law of Motion to formulate a differential equation system that will model this motion.
 \paragraph{Newton's Second Law of Motion} states that the sum of forces $\vec{F}$, acting on an object is equal to the mass, $m$, multiplied by the acceleration, $\vec{a}$, of the object. i.e. $$\vec{F}=m\vec{a}.$$
 
-Let $\vec{s}(t)= \begin{pmatrix} s_x(t) \\ s_y(t) \end{pmatrix}$ be the displacement of the cannonball from the origin at a given time $t$. Since, $\vec{a}=\ddot{\vec{s}}$, we can write the following using Newton's second law of motion. 
+Let $\vec{s}(t)= \begin{pmatrix} s_x(t) \\ s_y(t) \end{pmatrix}$ be the displacement of the cannonball from the origin at a given time $t$. Since $\vec{a}=\ddot{\vec{s}}$, we can write the following using Newton's second law of motion. 
 
 \begin{equation}
 	m\dfrac{d^2 \vec{s}}{dt^2} = m\vec{g} - K|\vec{v}|\vec{v} \label{eq:n2l}.
@@ -108,7 +108,7 @@ with initial conditions expressed in terms of the initial speed and launch angle
 	\vec{s}(0) = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \quad\text{and}\quad \dot{\vec{s}}(0) = \begin{pmatrix} 450\cos{\theta} \\ 450\sin{\theta} \end{pmatrix}.
 	\label{eq:ic}
 \end{equation}
-Hence, we have a pair of initial value problems that can be solved using MATLAB.
+Hence, we have a pair of initial value problems (IVPs) that can be solved using MATLAB.
 
 % ******************************** Question 1 ******************************** %
 \chapter{Maximum horizontal distance}
@@ -159,7 +159,7 @@ Instead, we consider the system when there is no resistance force $\vec{F}$ and 
 
 where $v_0$ is the initial speed and $\theta$ is the launch angle.\\
 
-Since, air resistance works against the motion of the cannonball, it is clear that any time of flight which includes the air resistance will be lower. Hence, (\ref{eq:span}) can be used as the upper bound for the span.
+Since air resistance works against the motion of the cannonball, it is clear that any time of flight which includes the air resistance will be lower. Hence, (\ref{eq:span}) can be used as the upper bound for the span.
 
 \paragraph{Observation III:}
 As discussed in Observation II, the span is an upper bound for the values of $t$. Therefore, the solution will have values for $t$ greater than the time taken for the cannonball to reach the ground. To avoid this, we can add an event function in the \texttt{options} argument of \texttt{ode45}. This event will simply stop solving the ODE once the cannonball touches the ground. i.e. $s_y=0$.
@@ -209,7 +209,7 @@ Therefore, we can conclude that a maximum distance of 19617.77m (2dp) is achieve
 \chapter{Firing at a target}
 % ------ Problem ------ %
 \section*{Problem}
-We wish to fire cannonballs to destroy a target at 15000 metres from the origin. However, at 12000m there are interceptors which move vertically in an attempt to block the cannonballs. Each interceptor is a 1000m long, moves vertically upwards at a constant velocity $100\text{ms}^{-1}$, and is launched every 20 seconds. Figure \ref{fig:target} shows the initial configuration at $t=0$. An interceptor is released straight away from (12000, 0) as $t$ becomes greater than zero. We can conclude from the speed and the time interval that there will be a distance of 1000 metres between each interceptor because each one will travel 2000 metres before the next one is released (see Figure \ref{fig:target}). For simplicity, we assume the size of the cannonballs and the interceptors is negligible.\\
+We wish to fire cannonballs to destroy a target at 15000 metres from the origin. However, at 12000m there are interceptors which move vertically in an attempt to block the cannonballs. Each interceptor is a 1000m long, moves vertically upwards at a constant velocity $100\text{ms}^{-1}$, and is launched every 20 seconds. Figure \ref{fig:target} shows the initial configuration at $t=0$. An interceptor is released straight away from $(12000, 0)$ as $t$ becomes greater than zero. We can conclude from the speed and the time interval that there will be a distance of 1000 metres between each interceptor because each one will travel 2000 metres before the next one is released (see Figure \ref{fig:target}). For simplicity, we assume the size of the cannonballs and the interceptors is negligible.\\
 
 The aim is to find all possible firing angles and their associated firing times for which we can hit the target successfully.
 \begin{figure}[h]
@@ -242,7 +242,7 @@ It is clear that there are two zeros for the \texttt{theta} near 0.4 and 1.2. Th
 
 \paragraph{Observation II:} The interceptors move at a constant velocity of $100\text{ms}^{-1}$. So, in 20 seconds an interceptor travels 2000 metres. Observing the setup in Figure \ref{fig:target}, we can see that the interceptors will be in the ``same'' position every 20 seconds. There is also an empty space of 1000 metres between each interceptor, which lasts for 10 seconds. \\
 
-We want to find one time delay $t_d$ (delay after $t=0$), such that the cannonball is just below the interceptor (as mentioned earlier in the approach). The height of the point at bottom of the first interceptor for a given time $t$ can be expressed as $$ 100t + 1000. $$\\
+We want to find one time delay $t_d$ (delay after $t=0$), such that the cannonball is just below the interceptor (as mentioned earlier in the approach). The height of the point corresponding to the bottom of the first interceptor for a given time $t$, can be expressed as $$ 100t + 1000. $$\\
 
 Now, let $h_{\theta}$ be the height of the cannonball at 12000 metres from the origin and let $t_{\theta}$ be the time it takes for the cannonball, fired at angle $\theta$, to reach this point. In order to have this height correspond to the bottom of the interceptor, we have, $$h_{\theta} \equiv 100t + 1000 \mod 2000.$$ \\
 
@@ -266,11 +266,11 @@ The angles retrieved from this can be used as inputs for \texttt{TimeDelay(angle
 
 \lstinputlisting[language=Matlab, caption={Returns the height and flight time at 12000m for a given \texttt{theta}.},label={lst:heightduration}]{GetHeightAndDurationAt12K.m}
 
-Notice, in Listing \ref{lst:heightduration} we use \texttt{@InterceptorEvent} as the events function for the function \texttt{Projectile}, defined in Listing \ref{lst:projectile}. This is because, we are only concerned for a solution until the cannonball reaches a distance of 12000 metres. Hence, we can stop solving further, once this distance is reached.
+Notice, in Listing \ref{lst:heightduration} we use \texttt{@InterceptorEvent} as the events function for the function \texttt{Projectile}, defined in Listing \ref{lst:projectile}. This is because, we are only concerned for a solution until the cannonball reaches a distance of 12000 metres. Hence, we can stop solving further, once this distance is reached.\\
 
 \lstinputlisting[language=Matlab, caption={\texttt{InterceptorEvent} function.},label={lst:events2}]{InterceptorEvent.m}
 \ \\
-Finally, we can employ the above functions and (\ref{eq:timedelay}) to implement \texttt{TimeDelay(angles)} which takes a list of angles as the input. \\
+Finally, we can employ the above functions and use (\ref{eq:timedelay}) to implement \texttt{TimeDelay(angles)} which takes a list of angles as the input. \\
 
 \lstinputlisting[language=Matlab, caption={Outputs one time delay $t_d$ each, for the given \texttt{angles}.},label={lst:timedelay}]{TimeDelay.m}
 
